@@ -1,6 +1,10 @@
 ---
 Name: silverstripe-image-formatter
 ---
-SilverStripe\Assets\Image:
+SilverStripe\Assets\File:
   extensions:
     imageformatter: TractorCow\SilverStripeImageFormatter\ImageFormatExtension
+SilverStripe\Assets\Storage\DBFile:
+  extensions:
+    imageformatter: TractorCow\SilverStripeImageFormatter\ImageFormatExtension
+
