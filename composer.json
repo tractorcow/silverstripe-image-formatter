@@ -3,7 +3,7 @@
     "description": "Programatically convert image formats",
     "type": "silverstripe-vendormodule",
     "require": {
-        "silverstripe/assets": "^4"
+        "silverstripe/assets": "^1"
     },
     "license": "BSD-3-Clause",
     "authors": [
