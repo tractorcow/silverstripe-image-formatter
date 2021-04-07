@@ -1,0 +1,6 @@
+---
+Name: silverstripe-image-formatter
+---
+SilverStripe\Assets\Image:
+  extensions:
+    imageformatter: TractorCow\SilverStripeImageFormatter\ImageFormatExtension

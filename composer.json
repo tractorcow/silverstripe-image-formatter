@@ -1,0 +1,21 @@
+{
+    "name": "tractorcow/silverstripe-image-formatter",
+    "description": "Programatically convert image formats",
+    "type": "silverstripe-vendormodule",
+    "require": {
+        "silverstripe/assets": "^4"
+    },
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Damian Mooyman",
+            "email": "damian.mooyman@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "TractorCow\\SilverStripeImageFormatter\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
