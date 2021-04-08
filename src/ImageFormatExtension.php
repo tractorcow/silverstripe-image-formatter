@@ -3,6 +3,7 @@
 namespace TractorCow\SilverStripeImageFormatter;
 
 use BadMethodCallException;
+use Exception;
 use SilverStripe\Assets\File;
 use SilverStripe\Assets\Image_Backend;
 use SilverStripe\Assets\Storage\AssetStore;
@@ -30,6 +31,11 @@ class ImageFormatExtension extends DataExtension
             throw new BadMethodCallException("Format can only be called on images");
         }
 
+        // Can't convert if it doesn't exist
+        if (!$this->owner->exists()) {
+            return null;
+        }
+
         // Skip if file converted to same extension
         $extension = $this->owner->getExtension();
         if (strcasecmp($extension, $format) === 0) {
@@ -41,9 +47,6 @@ class ImageFormatExtension extends DataExtension
         $newFilename = substr($filename, 0, -strlen($extension)) . strtolower($format);
         $hash = $this->owner->getHash();
         $variant = $this->owner->getVariant();
-        if (empty($filename) || empty($hash)) {
-            return null;
-        }
 
         // Create this asset in the store if it doesn't already exist,
         // otherwise use the existing variant
@@ -64,7 +67,7 @@ class ImageFormatExtension extends DataExtension
             /** @var Image_Backend $backend */
             $backend = $this->owner->getImageBackend();
             if (!$backend || !$backend->getImageResource()) {
-                return null;
+                throw new BadMethodCallException("Could not load image {$filename}");
             }
 
             // Immediately save to new filename
@@ -80,11 +83,9 @@ class ImageFormatExtension extends DataExtension
                     'visibility' => AssetStore::VISIBILITY_PUBLIC,
                 ]
             );
-        }
-
-        // Callback may fail to perform this manipulation (e.g. resize on text file)
-        if (!$tuple) {
-            return null;
+            if (!$tuple) {
+                throw new Exception("Could not convert image {$filename} to {$newFilename}");
+            }
         }
 
         // Store result in new DBFile instance
