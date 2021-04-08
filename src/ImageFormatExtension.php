@@ -38,7 +38,7 @@ class ImageFormatExtension extends DataExtension
 
         // Check asset details
         $filename = $this->owner->getFilename();
-        $newFilename = substr($filename, -strlen($extension)) . strtolower($format);
+        $newFilename = substr($filename, 0, -strlen($extension)) . strtolower($format);
         $hash = $this->owner->getHash();
         $variant = $this->owner->getVariant();
         if (empty($filename) || empty($hash)) {
@@ -47,6 +47,7 @@ class ImageFormatExtension extends DataExtension
 
         // Create this asset in the store if it doesn't already exist,
         // otherwise use the existing variant
+        /** @var AssetStore $store */
         $store = Injector::inst()->get(AssetStore::class);
         $backend = null;
         if ($store->exists($newFilename, $hash, $variant)) {
@@ -67,12 +68,17 @@ class ImageFormatExtension extends DataExtension
             }
 
             // Immediately save to new filename
+            // Normal asset visibility doesn't work for images with different filenames, so
+            // save to public.
             $tuple = $backend->writeToStore(
                 $store,
                 $newFilename,
                 $hash,
                 $variant,
-                ['conflict' => AssetStore::CONFLICT_USE_EXISTING]
+                [
+                    'conflict'   => AssetStore::CONFLICT_USE_EXISTING,
+                    'visibility' => AssetStore::VISIBILITY_PUBLIC,
+                ]
             );
         }
 
