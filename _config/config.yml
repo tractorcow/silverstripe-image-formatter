@@ -1,14 +1,17 @@
 ---
 Name: silverstripe-image-formatter
 ---
+
 SilverStripe\Assets\File:
-  extensions:
-    imageformatter: TractorCow\SilverStripeImageFormatter\ImageFormatExtension
   allowed_extensions:
     - webp
   app_categories:
     image/supported:
       - webp
+
+SilverStripe\Assets\Image:
+  extensions:
+    imageformatter: TractorCow\SilverStripeImageFormatter\ImageFormatExtension
 SilverStripe\Assets\Storage\DBFile:
   extensions:
     imageformatter: TractorCow\SilverStripeImageFormatter\ImageFormatExtension

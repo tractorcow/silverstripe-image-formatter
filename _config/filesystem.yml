@@ -1,8 +1,0 @@
----
-Name: silverstripe-image-formatter-filesystem
-After:
-  - '#assetscore'
----
-SilverStripe\Core\Injector\Injector:
-  SilverStripe\Assets\Storage\AssetStore:
-    class: TractorCow\SilverStripeImageFormatter\ImageFormatStore
