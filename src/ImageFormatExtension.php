@@ -24,13 +24,17 @@ class ImageFormatExtension extends Extension
      *
      * @param string $newExtension The file extension of the formatted file, e.g. "webp"
      */
-    public function Format(string $newExtension): DBFile
+    public function Format(string $newExtension): ?DBFile
     {
         $original = $this->getOwner();
         return $original->manipulateExtension(
             $newExtension,
             function (AssetStore $store, string $filename, string $hash, string $variant) use ($original, $newExtension) {
                 $backend = clone $original->getImageBackend();
+                // If backend isn't available
+                if (!$backend || !$backend->getImageResource()) {
+                    return null;
+                }
                 // get quality for current conversion
                 $quality = $this->config()->default_quality;
                 if ($newExtension == 'avif') {
